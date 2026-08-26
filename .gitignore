@@ -1,2 +1,21 @@
 __pycache__/
 .cache/
+
+# OMC operational state
+.omc/
+
+# Large experiment artifacts (weights, datasets, generated images) — not synced
+*.pkl
+*.pt
+*.zip
+*.png
+*.jpg
+*.bmp
+
+# Per-experiment data/weights dirs (keep docs + data_aug.yaml)
+experiments/*/gan_runs/
+experiments/*/gen_*/
+experiments/*/crops/
+experiments/*/pasted_full/
+experiments/*/dataset/images/
+experiments/*/dataset/labels/
