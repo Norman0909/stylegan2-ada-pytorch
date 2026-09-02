@@ -13,6 +13,7 @@ import torch.utils.cpp_extension
 import importlib
 import hashlib
 import shutil
+import sys
 from pathlib import Path
 
 from torch.utils.file_baton import FileBaton
@@ -38,6 +39,53 @@ def _find_compiler_bindir():
             return matches[-1]
     return None
 
+def _find_ninja_bindir():
+    patterns = [
+        os.path.join(os.path.dirname(sys.executable), 'Scripts'),
+        os.path.join(os.path.dirname(sys.executable), 'Library', 'bin'),
+        'C:/Program Files (x86)/Microsoft Visual Studio/*/BuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja',
+        'C:/Program Files (x86)/Microsoft Visual Studio/*/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja',
+    ]
+    for pattern in patterns:
+        for bindir in reversed(sorted(glob.glob(pattern))):
+            if os.path.isfile(os.path.join(bindir, 'ninja.exe')):
+                return bindir
+    return None
+
+def _prepend_path(bindir):
+    current = os.environ.get('PATH', '')
+    entries = current.split(os.pathsep) if current else []
+    if bindir not in entries:
+        os.environ['PATH'] = os.pathsep.join([bindir] + entries)
+
+def _setup_windows_build_environment():
+    if os.name != 'nt':
+        return
+
+    # PyTorch's Windows extension builder needs both Ninja and MSVC.  The
+    # Conda interpreter may be launched without its Scripts directory on PATH.
+    if shutil.which('cl.exe') is None:
+        compiler_bindir = _find_compiler_bindir()
+        if compiler_bindir is None:
+            raise RuntimeError(f'Could not find MSVC/GCC/CLANG installation on this computer. Check _find_compiler_bindir() in "{__file__}".')
+        _prepend_path(compiler_bindir)
+    if shutil.which('ninja.exe') is None:
+        ninja_bindir = _find_ninja_bindir()
+        if ninja_bindir is None:
+            raise RuntimeError(f'Could not find ninja.exe for the active Python environment. Check _find_ninja_bindir() in "{__file__}".')
+        _prepend_path(ninja_bindir)
+
+    # torch.utils.cpp_extension._run_ninja_build() otherwise reconstructs its
+    # own VC environment and can overwrite PATH with the launcher PATH.  Keep
+    # the standard INCLUDE/LIB variables from that environment, but preserve
+    # the corrected PATH assembled above.
+    if 'VSCMD_ARG_TGT_ARCH' not in os.environ:
+        vc_env = torch.utils.cpp_extension._get_vc_env('x64')  # pylint: disable=protected-access
+        for key, value in vc_env.items():
+            if key.upper() != 'PATH':
+                os.environ[key.upper()] = value
+        os.environ['VSCMD_ARG_TGT_ARCH'] = 'x64'
+
 #----------------------------------------------------------------------------
 # Main entry point for compiling and loading C++/CUDA plugins.
 
@@ -57,12 +105,8 @@ def get_plugin(module_name, sources, **build_kwargs):
         print(f'Setting up PyTorch plugin "{module_name}"... ', end='', flush=True)
 
     try: # pylint: disable=too-many-nested-blocks
-        # Make sure we can find the necessary compiler binaries.
-        if os.name == 'nt' and os.system("where cl.exe >nul 2>nul") != 0:
-            compiler_bindir = _find_compiler_bindir()
-            if compiler_bindir is None:
-                raise RuntimeError(f'Could not find MSVC/GCC/CLANG installation on this computer. Check _find_compiler_bindir() in "{__file__}".')
-            os.environ['PATH'] += ';' + compiler_bindir
+        # Make sure we can find the necessary compiler and build binaries.
+        _setup_windows_build_environment()
 
         # Compile and load.
         verbose_build = (verbosity == 'full')
