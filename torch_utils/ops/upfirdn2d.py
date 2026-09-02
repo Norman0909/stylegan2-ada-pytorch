@@ -22,14 +22,21 @@ from . import conv2d_gradfix
 
 _inited = False
 _plugin = None
+_init_attempts = 0
+_max_init_attempts = 2
 
 def _init():
-    global _inited, _plugin
-    if not _inited:
+    global _inited, _plugin, _init_attempts
+    # Retry once for a transient build/lock failure, then use the reference
+    # implementation without retrying the same failed build for every layer
+    # and minibatch.
+    if not _inited and _init_attempts < _max_init_attempts:
+        _init_attempts += 1
         sources = ['upfirdn2d.cpp', 'upfirdn2d.cu']
         sources = [os.path.join(os.path.dirname(__file__), s) for s in sources]
         try:
             _plugin = custom_ops.get_plugin('upfirdn2d_plugin', sources=sources, extra_cuda_cflags=['--use_fast_math'])
+            _inited = True
         except:
             warnings.warn('Failed to build CUDA kernels for upfirdn2d. Falling back to slow reference implementation. Details:\n\n' + traceback.format_exc())
     return _plugin is not None
