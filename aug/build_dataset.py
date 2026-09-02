@@ -9,6 +9,7 @@ Usage:
       --pasted-images <exp>/pasted_full/images --pasted-labels <exp>/pasted_full/labels \
       --val-images <images/val> --val-labels <labels/val> --out <exp>/dataset \
       --names ball cube "human body" tyre "square cage" plane rov "circle cage" cylinder "metal bucket"
+  # 或用逗号分隔（KLSG）: --names man,mine,plane,ship
 """
 import os
 import glob
@@ -19,6 +20,14 @@ NAMES = [
     "ball", "cube", "human body", "tyre", "square cage",
     "plane", "rov", "circle cage", "cylinder", "metal bucket",
 ]
+
+
+def parse_names(s):
+    """Parse comma-separated class names, e.g. "man,mine,plane,ship"."""
+    names = [n.strip() for n in s.split(",") if n.strip()]
+    if not names:
+        raise SystemExit("--names is empty")
+    return names
 
 
 def link_or_copy(src, dst):
@@ -51,7 +60,10 @@ def main():
     ap.add_argument("--val-images", required=True)
     ap.add_argument("--val-labels", required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--names", default=None,
+                    help="comma-separated class names (default: UATD 10 classes)")
     a = ap.parse_args()
+    names = parse_names(a.names) if a.names else NAMES
 
     link_dir(a.orig_images, os.path.join(a.out, "images", "train"))
     link_dir(a.orig_labels, os.path.join(a.out, "labels", "train"))
@@ -61,11 +73,11 @@ def main():
     link_dir(a.val_labels, os.path.join(a.out, "labels", "val"))
 
     yaml = (
-        f"# Augmented UATD dataset (see experiment dir).\n"
+        f"# Augmented dataset (see experiment dir).\n"
         f"path: {os.path.abspath(a.out)}\n"
-        f"train: images/train\nval: images/val\n\nnc: {len(NAMES)}\nnames:\n"
+        f"train: images/train\nval: images/val\n\nnc: {len(names)}\nnames:\n"
     )
-    for i, n in enumerate(NAMES):
+    for i, n in enumerate(names):
         yaml += f"  {i}: {n}\n"
     with open(os.path.join(a.out, "data_aug.yaml"), "w") as f:
         f.write(yaml)

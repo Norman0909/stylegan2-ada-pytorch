@@ -12,6 +12,9 @@ __pycache__/
 *.jpg
 *.bmp
 
+# Local CUDA extension build cache
+.torch_ext/
+
 # Per-experiment data/weights dirs (keep docs + data_aug.yaml)
 experiments/*/gan_runs/
 experiments/*/gen_*/
@@ -19,3 +22,11 @@ experiments/*/crops/
 experiments/*/pasted_full/
 experiments/*/dataset/images/
 experiments/*/dataset/labels/
+
+# Additional generated experiment variants (keep only dataset configs)
+experiments/*/dataset_*/**/*
+!experiments/*/dataset_*/data_aug.yaml
+experiments/*/dataset_real/**/*
+!experiments/*/dataset_real/data_aug.yaml
+experiments/*/pasted_*/**/*
+experiments/*/runs/**/*

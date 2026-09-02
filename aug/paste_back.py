@@ -22,7 +22,7 @@ import json
 import random
 import argparse
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageFilter
 
 CLASS_NAMES = [
     "ball", "cube", "human_body", "tyre", "square_cage",
@@ -48,6 +48,18 @@ def iou(a, b):
     return inter / union if union > 0 else 0.0
 
 
+def iom(a, b):
+    """Intersection over the smaller box's area: detects containment, which
+    plain IoU misses (a small patch fully inside a large object has IoU ~0)."""
+    ix0 = max(a[0], b[0]); iy0 = max(a[1], b[1])
+    ix1 = min(a[2], b[2]); iy1 = min(a[3], b[3])
+    inter = max(0, ix1 - ix0) * max(0, iy1 - iy0)
+    area_a = max(0, a[2] - a[0]) * max(0, a[3] - a[1])
+    area_b = max(0, b[2] - b[0]) * max(0, b[3] - b[1])
+    small = min(area_a, area_b)
+    return inter / small if small > 0 else 0.0
+
+
 def extract_object(gray_arr, thr=8, margin=4):
     mask = gray_arr > thr
     b = bbox_of_mask(mask)
@@ -62,16 +74,21 @@ def extract_object(gray_arr, thr=8, margin=4):
     return gray_arr[y0:y1 + 1, x0:x1 + 1], (x0, y0, x1, y1)
 
 
-def transform_patch(patch, rng):
+def transform_patch(patch, rng, fg_thr=8, rotate_mode="full"):
     img = Image.fromarray(patch)
     if rng.random() < 0.5:
         img = img.transpose(Image.FLIP_LEFT_RIGHT)
     if rng.random() < 0.5:
         img = img.transpose(Image.FLIP_TOP_BOTTOM)
-    ang = rng.uniform(-180, 180)
+    if rotate_mode == "axis":
+        # elongated objects: real labels are mostly axis-aligned, so restrict
+        # rotation to k*90 deg plus a small jitter to preserve bbox aspect
+        ang = rng.choice([0, 90, 180, 270]) + rng.uniform(-10, 10)
+    else:
+        ang = rng.uniform(-180, 180)
     img = img.rotate(ang, expand=True, fillcolor=0, resample=Image.BICUBIC)
     arr = np.asarray(img)
-    b = bbox_of_mask(arr > 8)
+    b = bbox_of_mask(arr > fg_thr)
     return arr, b, img
 
 
@@ -91,22 +108,23 @@ def sample_center(rng, real_centers):
     """Return normalized (cx, cy) sampled from real distribution or uniform."""
     if real_centers:
         cx, cy = rng.choice(real_centers)
-        cx = min(1.0, max(0.0, cx + rng.gauss(0, 0.015)))
-        cy = min(1.0, max(0.0, cy + rng.gauss(0, 0.015)))
+        cx = min(1.0, max(0.0, cx + rng.gauss(0, 0.05)))
+        cy = min(1.0, max(0.0, cy + rng.gauss(0, 0.05)))
     else:
         cx, cy = rng.random(), rng.random()
     return cx, cy
 
 
 def paste_one(crop_path, bg, cls_id, rng, real_centers, orig_boxes, overlap_thr, max_tries,
-              tw_min, tw_max, max_w, max_h):
+              tw_min, tw_max, max_w, max_h, fg_thr=8, rotate_mode="full",
+              luma_match=0.3, feather_scale=0.04):
     crop = Image.open(crop_path).convert("L")
     arr = np.asarray(crop)
-    patch, _ = extract_object(arr)
+    patch, _ = extract_object(arr, thr=fg_thr)
     if patch is None:
         return None
 
-    patch, b, pimg = transform_patch(patch, rng)
+    patch, b, pimg = transform_patch(patch, rng, fg_thr, rotate_mode)
     if b is None:
         return None
     px0, py0, px1, py1 = b
@@ -121,7 +139,7 @@ def paste_one(crop_path, bg, cls_id, rng, real_centers, orig_boxes, overlap_thr,
         return None
     pimg = pimg.resize((new_w, new_h), Image.LANCZOS)
     patch = np.asarray(pimg)
-    mask = (patch > 8).astype(np.uint8) * 255
+    mask = (patch > fg_thr).astype(np.uint8) * 255
     b = bbox_of_mask(mask)
     if b is None:
         return None
@@ -157,7 +175,7 @@ def paste_one(crop_path, bg, cls_id, rng, real_centers, orig_boxes, overlap_thr,
         y0 = max(0, min(H - new_h, y0))
         obj_x0 = x0 + ox0; obj_y0 = y0 + oy0
         new_box = (obj_x0, obj_y0, obj_x0 + obj_w, obj_y0 + obj_h)
-        mx = max([iou(new_box, o) for o in orig_px], default=0.0)
+        mx = max([iom(new_box, o) for o in orig_px], default=0.0)
         if mx < overlap_thr:
             best = (x0, y0, new_box)
             best_iou = mx
@@ -165,12 +183,28 @@ def paste_one(crop_path, bg, cls_id, rng, real_centers, orig_boxes, overlap_thr,
         if mx < best_iou:
             best_iou = mx
             best = (x0, y0, new_box)
-    if best is None:
+    if best is None or best_iou >= overlap_thr:
+        # strict: never paste when no non-overlapping position was found
         return None
     x0, y0, new_box = best
 
     bg = bg.convert("L").copy()
-    alpha = Image.fromarray(mask)
+
+    # Smooth blending: 1) partially match patch brightness to the local
+    # background so pasted objects do not look cut out; 2) feather the alpha
+    # mask edges for a gradual transition into the background.
+    if luma_match > 0:
+        bg_arr = np.asarray(bg)
+        region = bg_arr[y0:y0 + new_h, x0:x0 + new_w].astype(np.float32)
+        ring = region[mask == 0]
+        if ring.size:
+            parr = np.asarray(pimg).astype(np.float32)
+            fg = parr[mask > 0]
+            shift = luma_match * (float(ring.mean()) - float(fg.mean()))
+            parr = np.clip(parr + shift, 0, 255)
+            pimg = Image.fromarray(parr.astype(np.uint8))
+    feather = max(1.0, min(4.0, feather_scale * max(obj_w, obj_h)))
+    alpha = Image.fromarray(mask).filter(ImageFilter.GaussianBlur(feather))
     bg.paste(pimg, (x0, y0), alpha)
 
     obj_x0, obj_y0, obj_x1, obj_y1 = new_box
@@ -196,6 +230,16 @@ def main():
     ap.add_argument("--max-h", type=float, default=130, help="reject if object taller than this (px)")
     ap.add_argument("--max", type=int, default=0, help="limit crops processed (0 = all)")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--name", default=None, help="class name for logging (default: UATD name)")
+    ap.add_argument("--fg-thr", type=int, default=8, help="grayscale threshold for foreground extraction")
+    ap.add_argument("--rotate-mode", default="full", choices=["full", "axis"],
+                    help="full: random angle; axis: k*90 deg + jitter (for elongated objects)")
+    ap.add_argument("--repeat", type=int, default=1,
+                    help="use each crop N times with independent random transforms (for small crop pools)")
+    ap.add_argument("--luma-match", type=float, default=0.3,
+                    help="fraction of brightness shift toward local background (0 = off)")
+    ap.add_argument("--feather-scale", type=float, default=0.04,
+                    help="alpha edge feather radius as fraction of object size (0 = off)")
     a = ap.parse_args()
 
     rng = random.Random(a.seed)
@@ -226,14 +270,15 @@ def main():
     done = 0
     skipped = 0
     manifest = []
-    for ci, cp in enumerate(crops):
+    for ci, cp in enumerate(crops * max(1, a.repeat)):
         bg_path = rng.choice(bg_files)
         bg = Image.open(bg_path)
         bg_base = os.path.splitext(os.path.basename(bg_path))[0]
         orig = load_label(os.path.join(a.pos_labels or a.backgrounds, bg_base + ".txt"))
 
         res = paste_one(cp, bg, a.cls, rng, real_centers, orig, a.overlap_threshold, a.max_tries,
-                        a.tw_min, a.tw_max, a.max_w, a.max_h)
+                        a.tw_min, a.tw_max, a.max_w, a.max_h, a.fg_thr, a.rotate_mode,
+                        a.luma_match, a.feather_scale)
         if res is None:
             skipped += 1
             continue
@@ -250,7 +295,8 @@ def main():
 
     with open(os.path.join(a.out, "manifest.json"), "w") as f:
         json.dump(manifest, f, indent=2)
-    print(f"class {a.cls} ({CLASS_NAMES[a.cls]}): {done} pasted, {skipped} skipped -> {a.out}")
+    cls_name = a.name if a.name else CLASS_NAMES[a.cls] if a.cls < len(CLASS_NAMES) else str(a.cls)
+    print(f"class {a.cls} ({cls_name}): {done} pasted, {skipped} skipped -> {a.out}")
 
 
 if __name__ == "__main__":

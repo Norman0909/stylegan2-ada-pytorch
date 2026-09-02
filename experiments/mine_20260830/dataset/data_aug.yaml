@@ -1,0 +1,11 @@
+# Augmented dataset (see experiment dir).
+path: C:\C2\Document\sonar_research\generate_model\stylegan2-ada-pytorch\experiments\mine_20260830\dataset
+train: images/train
+val: images/val
+
+nc: 4
+names:
+  0: man
+  1: mine
+  2: plane
+  3: ship
