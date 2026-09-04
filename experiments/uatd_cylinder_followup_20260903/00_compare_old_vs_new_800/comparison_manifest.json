@@ -1,0 +1,18 @@
+{
+  "created_at": "2026-09-03T15:49:20",
+  "old_generated_dir": "C:\\C2\\Document\\sonar_research\\generate_model\\stylegan2-ada-pytorch\\experiments\\uatd_cylinder_followup_20260903\\00_compare_old_vs_new_800\\samples\\old_gen_800k",
+  "new_generated_dir": "C:\\C2\\Document\\sonar_research\\generate_model\\stylegan2-ada-pytorch\\experiments\\uatd_cylinder_followup_20260903\\00_compare_old_vs_new_800\\samples\\new_context_effective800",
+  "old_training_patch_dir": "C:\\C2\\Document\\sonar_research\\generate_model\\stylegan2-ada-pytorch\\experiments\\uatd_cylinder_followup_20260903\\00_compare_old_vs_new_800\\source_patches\\old_bbox_pad1.6_rgb",
+  "new_training_patch_dir": "C:\\C2\\Document\\sonar_research\\generate_model\\stylegan2-ada-pytorch\\experiments\\uatd_cylinder_followup_20260903\\00_compare_old_vs_new_800\\source_patches\\new_context5_gray",
+  "new_checkpoint": "C:\\C2\\Document\\sonar_research\\generate_model\\stylegan2-ada-pytorch\\experiments\\uatd_cylinder_context_20260902_128x1_b32_ada_bgc_k800\\gan_runs\\00002-uatd_cylinder_context_128-auto1-kimg200-batch32-ada-bgc-resumecustom\\network-snapshot-000200.pkl",
+  "seeds": "0-999",
+  "truncation_psi": 1.0,
+  "noise_mode": "const",
+  "image_size": "128x128",
+  "old_pipeline": "bbox pad 1.6 -> black square -> RGB",
+  "new_pipeline": "context scale 5.0 -> edge replicate -> grayscale L",
+  "source_patch_counts": {
+    "old": 526,
+    "new": 526
+  }
+}

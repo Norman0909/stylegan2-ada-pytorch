@@ -1,0 +1,172 @@
+{
+  "old_training_patches": {
+    "count": 526,
+    "shape": [
+      128,
+      128
+    ],
+    "pixel_mean": 3.1588442262134624,
+    "pixel_std": 7.544503324871148,
+    "pixel_quantiles": {
+      "p50": 1.0,
+      "p90": 8.0,
+      "p95": 16.0,
+      "p99": 38.0,
+      "p99_5": 49.0,
+      "p99_9": 74.0
+    },
+    "pct_le_1": 64.93674158596721,
+    "pct_le_5": 84.96880476918965,
+    "foreground_thr8_pct_mean": 9.830616998128566,
+    "foreground_thr8_pct_median": 8.49609375,
+    "foreground_thr8_empty_pct": 0.0,
+    "per_image_mean_std": 1.6645454672004911,
+    "per_image_std_mean": 6.678265351713275,
+    "pair_rms_mean": 6.43409666407538,
+    "pair_rms_p95": 11.28889556084057,
+    "nearest_neighbor_rms_mean": 1.2134284627643235,
+    "nearest_neighbor_rms_p95": 4.422084627989474
+  },
+  "new_training_patches": {
+    "count": 526,
+    "shape": [
+      128,
+      128
+    ],
+    "pixel_mean": 3.261448849290043,
+    "pixel_std": 8.07575063400302,
+    "pixel_quantiles": {
+      "p50": 1.0,
+      "p90": 7.0,
+      "p95": 13.0,
+      "p99": 43.0,
+      "p99_5": 57.0,
+      "p99_9": 90.0
+    },
+    "pct_le_1": 64.60989020169914,
+    "pct_le_5": 88.0850904341433,
+    "foreground_thr8_pct_mean": 7.822676393922292,
+    "foreground_thr8_pct_median": 2.703857421875,
+    "foreground_thr8_empty_pct": 0.19011406844106463,
+    "per_image_mean_std": 2.98478500926061,
+    "per_image_std_mean": 5.616323229146791,
+    "pair_rms_mean": 7.061165709978573,
+    "pair_rms_p95": 19.375048157674172,
+    "nearest_neighbor_rms_mean": 0.8911021115120488,
+    "nearest_neighbor_rms_p95": 3.3931856794663022
+  },
+  "old_generated_800k": {
+    "count": 1000,
+    "shape": [
+      128,
+      128
+    ],
+    "pixel_mean": 2.6707671508789064,
+    "pixel_std": 6.563195579290367,
+    "pixel_quantiles": {
+      "p50": 1.0,
+      "p90": 7.0,
+      "p95": 13.0,
+      "p99": 34.0,
+      "p99_5": 43.0,
+      "p99_9": 64.0
+    },
+    "pct_le_1": 68.91314697265625,
+    "pct_le_5": 87.80827026367187,
+    "foreground_thr8_pct_mean": 8.145391845703125,
+    "foreground_thr8_pct_median": 6.9793701171875,
+    "foreground_thr8_empty_pct": 0.0,
+    "per_image_mean_std": 1.4697641274378108,
+    "per_image_std_mean": 5.762726511169672,
+    "pair_rms_mean": 5.758963431989015,
+    "pair_rms_p95": 10.388055427600253,
+    "nearest_neighbor_rms_mean": 0.8335004527917479,
+    "nearest_neighbor_rms_p95": 2.975350266433956
+  },
+  "new_generated_effective800": {
+    "count": 1000,
+    "shape": [
+      128,
+      128
+    ],
+    "pixel_mean": 3.1828886108398438,
+    "pixel_std": 8.157667071024015,
+    "pixel_quantiles": {
+      "p50": 1.0,
+      "p90": 6.0,
+      "p95": 13.0,
+      "p99": 44.0,
+      "p99_5": 58.0,
+      "p99_9": 91.0
+    },
+    "pct_le_1": 64.90730590820313,
+    "pct_le_5": 89.24131469726562,
+    "foreground_thr8_pct_mean": 7.358367919921875,
+    "foreground_thr8_pct_median": 1.885986328125,
+    "foreground_thr8_empty_pct": 0.1,
+    "per_image_mean_std": 3.4171823574257663,
+    "per_image_std_mean": 5.345259483716071,
+    "pair_rms_mean": 6.825260084285781,
+    "pair_rms_p95": 18.8686093559186,
+    "nearest_neighbor_rms_mean": 0.6251883177575323,
+    "nearest_neighbor_rms_p95": 2.4024363969234455
+  },
+  "old_generated_mask_thr8": {
+    "count": 1000,
+    "empty_count": 0,
+    "empty_pct": 0.0,
+    "bbox_w": {
+      "mean": 70.101,
+      "median": 70.0,
+      "p10": 31.0,
+      "p90": 111.10000000000002
+    },
+    "bbox_h": {
+      "mean": 67.165,
+      "median": 64.0,
+      "p10": 29.0,
+      "p90": 111.0
+    },
+    "bbox_area_pct": {
+      "mean": 28.6369873046875,
+      "median": 24.13330078125,
+      "p10": 10.103759765625,
+      "p90": 52.88330078125
+    },
+    "mask_area_pct": {
+      "mean": 8.145391845703125,
+      "median": 6.9793701171875,
+      "p10": 2.3248291015625,
+      "p90": 15.457763671875002
+    }
+  },
+  "new_generated_mask_thr8": {
+    "count": 1000,
+    "empty_count": 1,
+    "empty_pct": 0.1,
+    "bbox_w": {
+      "mean": 104.22422422422423,
+      "median": 128.0,
+      "p10": 71.0,
+      "p90": 128.0
+    },
+    "bbox_h": {
+      "mean": 101.90290290290291,
+      "median": 128.0,
+      "p10": 67.0,
+      "p90": 128.0
+    },
+    "bbox_area_pct": {
+      "mean": 70.26062317200012,
+      "median": 95.361328125,
+      "p10": 29.8095703125,
+      "p90": 100.0
+    },
+    "mask_area_pct": {
+      "mean": 7.36573365357545,
+      "median": 1.885986328125,
+      "p10": 0.494384765625,
+      "p90": 21.416015625
+    }
+  }
+}

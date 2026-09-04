@@ -34,6 +34,16 @@ def num_range(s: str) -> List[int]:
 
 #----------------------------------------------------------------------------
 
+def save_generated_image(image: np.ndarray, path: str) -> None:
+    """Save RGB outputs as RGB and single-channel outputs as grayscale L."""
+    if image.ndim == 3 and image.shape[2] == 1:
+        image = image[:, :, 0]
+        PIL.Image.fromarray(image, 'L').save(path)
+    else:
+        PIL.Image.fromarray(image, 'RGB').save(path)
+
+#----------------------------------------------------------------------------
+
 @click.command()
 @click.pass_context
 @click.option('--network', 'network_pkl', help='Network pickle filename', required=True)
@@ -96,7 +106,7 @@ def generate_images(
         for idx, w in enumerate(ws):
             img = G.synthesis(w.unsqueeze(0), noise_mode=noise_mode)
             img = (img.permute(0, 2, 3, 1) * 127.5 + 128).clamp(0, 255).to(torch.uint8)
-            img = PIL.Image.fromarray(img[0].cpu().numpy(), 'RGB').save(f'{outdir}/proj{idx:02d}.png')
+            save_generated_image(img[0].cpu().numpy(), f'{outdir}/proj{idx:02d}.png')
         return
 
     if seeds is None:
@@ -118,7 +128,7 @@ def generate_images(
         z = torch.from_numpy(np.random.RandomState(seed).randn(1, G.z_dim)).to(device)
         img = G(z, label, truncation_psi=truncation_psi, noise_mode=noise_mode)
         img = (img.permute(0, 2, 3, 1) * 127.5 + 128).clamp(0, 255).to(torch.uint8)
-        PIL.Image.fromarray(img[0].cpu().numpy(), 'RGB').save(f'{outdir}/seed{seed:04d}.png')
+        save_generated_image(img[0].cpu().numpy(), f'{outdir}/seed{seed:04d}.png')
 
 
 #----------------------------------------------------------------------------

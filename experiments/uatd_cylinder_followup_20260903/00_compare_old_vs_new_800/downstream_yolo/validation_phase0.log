@@ -1,0 +1,107 @@
+Ultralytics 8.4.118  Python-3.11.15 torch-2.6.0+cu124 CUDA:0 (NVIDIA GeForce RTX 4060, 8188MiB)
+YOLO26n summary (fused): 122 layers, 2,376,786 parameters, 0 gradients, 5.3 GFLOPs
+[34m[1mval: [0mFast image access  (ping: 0.20.0 ms, read: 983.1174.9 MB/s, size: 4185.7 KB)
+
+[K[34m[1mval: [0mScanning C:\C2\Document\sonar_research\dataset\Sonar_Dataset\UATD\processed\labels\test.cache... 919 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 919/919  0.0s
+
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 1% ──────────── 1/58 1.4it/s 0.2s<41.8s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 5% ╸─────────── 3/58 4.7it/s 0.4s<11.7s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 8% ━─────────── 5/58 6.9it/s 0.5s<7.7s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 12% ━─────────── 7/58 8.1it/s 0.7s<6.3s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 15% ━╸────────── 9/58 9.3it/s 0.9s<5.3s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 18% ━━────────── 11/58 10.1it/s 1.1s<4.7s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 22% ━━╸───────── 13/58 9.9it/s 1.3s<4.5s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 25% ━━━───────── 15/58 10.7it/s 1.4s<4.0s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 29% ━━━╸──────── 17/58 10.9it/s 1.6s<3.8s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 32% ━━━╸──────── 19/58 12.0it/s 1.7s<3.2s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 36% ━━━━──────── 21/58 11.1it/s 2.0s<3.3s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 39% ━━━━╸─────── 23/58 12.6it/s 2.1s<2.8s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 43% ━━━━━─────── 25/58 12.5it/s 2.3s<2.6s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 46% ━━━━━╸────── 27/58 14.4it/s 2.4s<2.2s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 50% ━━━━━━────── 29/58 15.5it/s 2.5s<1.9s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 53% ━━━━━━────── 31/58 14.6it/s 2.6s<1.8s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 56% ━━━━━━╸───── 33/58 13.8it/s 2.8s<1.8s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 60% ━━━━━━━───── 35/58 14.0it/s 2.9s<1.6s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 65% ━━━━━━━╸──── 38/58 16.8it/s 3.1s<1.2s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 68% ━━━━━━━━──── 40/58 16.2it/s 3.2s<1.1s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 74% ━━━━━━━━╸─── 43/58 17.6it/s 3.3s<0.9s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 77% ━━━━━━━━━─── 45/58 16.8it/s 3.5s<0.8s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 82% ━━━━━━━━━╸── 48/58 18.6it/s 3.6s<0.5s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 84% ━━━━━━━━━━── 49/58 15.9it/s 3.7s<0.6s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 89% ━━━━━━━━━━╸─ 52/58 18.9it/s 3.8s<0.3s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 94% ━━━━━━━━━━━─ 55/58 20.2it/s 4.0s<0.1s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 58/58 14.0it/s 4.1s
+                   all        919       1460      0.958      0.947      0.958      0.536
+Speed: 0.7ms preprocess, 2.3ms inference, 0.0ms loss, 0.2ms postprocess per image
+Ultralytics 8.4.118  Python-3.11.15 torch-2.6.0+cu124 CUDA:0 (NVIDIA GeForce RTX 4060, 8188MiB)
+YOLO26n summary (fused): 122 layers, 2,376,786 parameters, 0 gradients, 5.3 GFLOPs
+[34m[1mval: [0mFast image access  (ping: 0.10.0 ms, read: 2298.4361.7 MB/s, size: 3907.0 KB)
+
+[K[34m[1mval: [0mScanning C:\C2\Document\sonar_research\dataset\Sonar_Dataset\UATD\processed\labels\test.cache... 919 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 919/919  0.0s
+
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 1% ──────────── 1/58 1.3it/s 0.2s<42.7s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 5% ╸─────────── 3/58 4.4it/s 0.4s<12.4s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 8% ━─────────── 5/58 6.9it/s 0.6s<7.7s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 12% ━─────────── 7/58 8.5it/s 0.7s<6.0s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 15% ━╸────────── 9/58 9.7it/s 0.9s<5.1s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 18% ━━────────── 11/58 10.4it/s 1.0s<4.5s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 22% ━━╸───────── 13/58 11.3it/s 1.2s<4.0s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 25% ━━━───────── 15/58 13.1it/s 1.3s<3.3s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 29% ━━━╸──────── 17/58 13.6it/s 1.4s<3.0s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 32% ━━━╸──────── 19/58 14.3it/s 1.6s<2.7s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 36% ━━━━──────── 21/58 14.4it/s 1.7s<2.6s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 39% ━━━━╸─────── 23/58 14.8it/s 1.8s<2.4s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 43% ━━━━━─────── 25/58 16.0it/s 1.9s<2.1s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 46% ━━━━━╸────── 27/58 16.7it/s 2.0s<1.9s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 50% ━━━━━━────── 29/58 16.8it/s 2.2s<1.7s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 53% ━━━━━━────── 31/58 17.3it/s 2.3s<1.6s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 56% ━━━━━━╸───── 33/58 17.7it/s 2.4s<1.4s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 62% ━━━━━━━───── 36/58 18.5it/s 2.5s<1.2s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 67% ━━━━━━━━──── 39/58 19.4it/s 2.7s<1.0s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 72% ━━━━━━━━╸─── 42/58 20.4it/s 2.8s<0.8s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 77% ━━━━━━━━━─── 45/58 21.2it/s 2.9s<0.6s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 82% ━━━━━━━━━╸── 48/58 21.9it/s 3.1s<0.5s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 87% ━━━━━━━━━━╸─ 51/58 22.2it/s 3.2s<0.3s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 93% ━━━━━━━━━━━─ 54/58 22.3it/s 3.3s<0.2s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 98% ━━━━━━━━━━━╸ 57/58 22.0it/s 3.5s<0.0s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 58/58 16.6it/s 3.5s
+                   all        919       1460      0.957      0.943       0.96      0.538
+Speed: 0.6ms preprocess, 1.6ms inference, 0.0ms loss, 0.2ms postprocess per image
+Ultralytics 8.4.118  Python-3.11.15 torch-2.6.0+cu124 CUDA:0 (NVIDIA GeForce RTX 4060, 8188MiB)
+YOLO26n summary (fused): 122 layers, 2,376,786 parameters, 0 gradients, 5.3 GFLOPs
+[34m[1mval: [0mFast image access  (ping: 0.00.0 ms, read: 2590.4530.7 MB/s, size: 4144.6 KB)
+
+[K[34m[1mval: [0mScanning C:\C2\Document\sonar_research\dataset\Sonar_Dataset\UATD\processed\labels\test.cache... 919 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 919/919  0.0s
+
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 1% ──────────── 1/58 1.5it/s 0.2s<38.5s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 5% ╸─────────── 3/58 4.6it/s 0.4s<11.9s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 8% ━─────────── 5/58 6.7it/s 0.5s<7.9s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 12% ━─────────── 7/58 8.0it/s 0.7s<6.3s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 15% ━╸────────── 9/58 9.2it/s 0.9s<5.3s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 17% ━━────────── 10/58 9.4it/s 1.0s<5.1s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 20% ━━────────── 12/58 10.7it/s 1.1s<4.3s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 24% ━━╸───────── 14/58 12.2it/s 1.3s<3.6s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 27% ━━━───────── 16/58 13.5it/s 1.4s<3.1s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 31% ━━━╸──────── 18/58 13.9it/s 1.5s<2.9s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 34% ━━━━──────── 20/58 14.5it/s 1.6s<2.6s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 37% ━━━━╸─────── 22/58 14.9it/s 1.8s<2.4s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 41% ━━━━╸─────── 24/58 15.6it/s 1.9s<2.2s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 44% ━━━━━─────── 26/58 16.6it/s 2.0s<1.9s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 48% ━━━━━╸────── 28/58 17.3it/s 2.1s<1.7s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 51% ━━━━━━────── 30/58 18.1it/s 2.2s<1.6s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 56% ━━━━━━╸───── 33/58 18.6it/s 2.4s<1.3s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 62% ━━━━━━━───── 36/58 19.9it/s 2.5s<1.1s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 67% ━━━━━━━━──── 39/58 20.5it/s 2.6s<0.9s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 72% ━━━━━━━━╸─── 42/58 20.8it/s 2.8s<0.8s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 77% ━━━━━━━━━─── 45/58 20.9it/s 2.9s<0.6s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 82% ━━━━━━━━━╸── 48/58 20.8it/s 3.0s<0.5s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 87% ━━━━━━━━━━╸─ 51/58 21.9it/s 3.2s<0.3s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 93% ━━━━━━━━━━━─ 54/58 21.6it/s 3.3s<0.2s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 96% ━━━━━━━━━━━╸ 56/58 20.8it/s 3.4s<0.1s
+[K                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 58/58 16.6it/s 3.5s
+                   all        919       1460      0.961      0.949      0.962      0.528
+Speed: 0.7ms preprocess, 1.6ms inference, 0.0ms loss, 0.2ms postprocess per image
+baseline {"map50": 0.9583086279291585, "map50_95": 0.5360701819168404, "precision": 0.958247896067683, "recall": 0.9465437478209866}
+old_augmented_800k {"map50": 0.960039021180914, "map50_95": 0.537708277472702, "precision": 0.9568161418006287, "recall": 0.942718273783018}
+new_context_effective800 {"map50": 0.9618378614426073, "map50_95": 0.5282148530241043, "precision": 0.9607809905959128, "recall": 0.9488501116200478}
+saved: C:\C2\Document\sonar_research\generate_model\stylegan2-ada-pytorch\experiments\uatd_cylinder_followup_20260903\00_compare_old_vs_new_800\downstream_yolo\validation_results.json

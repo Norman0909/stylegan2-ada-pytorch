@@ -14,6 +14,8 @@ __pycache__/
 
 # Local CUDA extension build cache
 .torch_ext/
+.torch_extensions/
+.ultralytics/
 
 # Per-experiment data/weights dirs (keep docs + data_aug.yaml)
 experiments/*/gan_runs/
@@ -30,3 +32,13 @@ experiments/*/dataset_real/**/*
 !experiments/*/dataset_real/data_aug.yaml
 experiments/*/pasted_*/**/*
 experiments/*/runs/**/*
+
+# Nested comparison/runtime outputs under dated experiment folders
+experiments/**/samples/
+experiments/**/source_patches/
+experiments/**/downstream_yolo/new_pasted_*/
+experiments/**/downstream_yolo/datasets/*/images/
+experiments/**/downstream_yolo/datasets/*/labels/
+experiments/**/downstream_yolo/yolo_runs/
+experiments/**/downstream_yolo/.ultralytics/
+experiments/**/downstream_yolo/training_*.log

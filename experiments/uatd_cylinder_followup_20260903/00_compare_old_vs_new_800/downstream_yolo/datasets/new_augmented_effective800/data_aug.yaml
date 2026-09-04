@@ -1,0 +1,17 @@
+# Augmented dataset (see experiment dir).
+path: C:\C2\Document\sonar_research\generate_model\stylegan2-ada-pytorch\experiments\uatd_cylinder_followup_20260903\00_compare_old_vs_new_800\downstream_yolo\datasets\new_augmented_effective800
+train: images/train
+val: images/val
+
+nc: 10
+names:
+  0: ball
+  1: cube
+  2: human body
+  3: tyre
+  4: square cage
+  5: plane
+  6: rov
+  7: circle cage
+  8: cylinder
+  9: metal bucket
